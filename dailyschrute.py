@@ -2,10 +2,10 @@ import markovify
 import tweepy
 import sys
 
-CONSUMER_KEY ="GcHRcSjXXRpq12kGKrD1pYdGb"
-CONSUMER_SECRET = "5U0jCP3ZiCQM0pH5zkp6uYHGJyPmyVk6rInVIdLHY4l5yVDE5Q"
-ACCESS_KEY = "956288496389558272-s7ljqoMQTl2c54PaE8zJ2i80MsdFf5p"
-ACCESS_SECRET = "DWNmOUJ0FkYigsPvq0afsXtqWOQAK6qK8YProbBomEVj5"
+CONSUMER_KEY =""
+CONSUMER_SECRET = ""
+ACCESS_KEY = ""
+ACCESS_SECRET = ""
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
@@ -16,7 +16,7 @@ args = len(sys.argv)
 
 if args == 1:
     #this is default situation (no params)
-    with open("dwightSchruteTotal") as f:
+    with open("dwightTotal") as f:
         text = f.read()
 
 if args == 2:
@@ -24,13 +24,24 @@ if args == 2:
     value = value.lower()
 
     if value == "dwight":
-        with open("dwightSchruteTotal") as f:
+        with open("dwightTotal") as f:
             text = f.read()
 
-    elif value == "creed":
+    if value == "creed":
         with open("creedTotal") as f:
             text = f.read()
 
+	if value == "pam":
+		with open("pamTotal") as f:
+			text = f.read()
+
+	if value == "michael":
+		with open("michaelTotal") as f:
+			text = f.read()
+
+	if value == "total":
+		with open("allCharactersTotal") as f:
+			text = f.read()
 
 text_model = markovify.Text(text)
 
