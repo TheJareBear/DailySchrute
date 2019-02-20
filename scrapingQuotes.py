@@ -1,24 +1,33 @@
 import requests
 from bs4 import BeautifulSoup
 
-season = "8"
-#episode = raw_input("Episode: ")
-for i in range(2, 3):
-	url = "http://www.officequotes.net/no" + season +"-" + str(i) + ".php"
+season=str(input("Season: "))
+episode=int(input("Episode: "))
 
-	if i < 10:
-		#print("It was less than 10")
-		url = "http://www.officequotes.net/no" + season +"-0" + str(i) + ".php"
+url = "http://www.officequotes.net/no" + season + "-" + str(episode) + ".php"
 
-	#print(url)
+if episode < 10:
+	#If the episode is less than 10 there needs to be a leading 0
+	url = "http://www.officequotes.net/no" + season + "-0" + str(episode) + ".php"
 
-	r = requests.get(url)
+#print(url) for testing
 
-	nice = BeautifulSoup(r.content, "lxml")
-	f = open("episodes/s" + season + "e" + str(i), "w")
-	for x in nice.find_all("div", {"class": "quote"}):
-		f.write(x.text.encode('utf8'))
+r = requests.get(url)
 
-	f.write("\nTHIS IS THE END OF THE SCRIPT")
+nice = BeautifulSoup(r.text, "html.parser")
 
+#open a file for the output
+filename = "season" + season + "Episode" + str(episode)
+f = open(filename, "w")
+quotes = nice.find_all("div", {"class": "quote"})
+
+if quotes:
+	for quote in quotes:
+		f.write(quote.text)
+		print(quote.text)
+
+	print("\n\nOUTPUT PRINTED TO",filename)
 	f.close()
+
+else:
+	print("\nEpisode not found or connection fail\n")

@@ -15,21 +15,21 @@ api = tweepy.API(auth)
 args = len(sys.argv)
 
 if args == 1:
-    #this is default situation (no params)
-    with open("dwightTotal") as f:
-        text = f.read()
+	#this is default situation (no params)
+	with open("dwightTotal") as f:
+		text = f.read()
 
 if args == 2:
-    value = sys.argv[1]
-    value = value.lower()
+	value = sys.argv[1]
+	value = value.lower()
 
-    if value == "dwight":
-        with open("dwightTotal") as f:
-            text = f.read()
+	if value == "dwight":
+		with open("dwightTotal") as f:
+		  text = f.read()
 
-    if value == "creed":
-        with open("creedTotal") as f:
-            text = f.read()
+	if value == "creed":
+		with open("creedTotal") as f:
+		  text = f.read()
 
 	if value == "pam":
 		with open("pamTotal") as f:
@@ -43,16 +43,23 @@ if args == 2:
 		with open("allCharactersTotal") as f:
 			text = f.read()
 
+
 text_model = markovify.Text(text)
 
-i = text_model.make_sentence()
-while len(i) > 135 or len(i) < 80:
-	i = text_model.make_sentence()
+msg = ""
 
-#i += " @rainnwilson"
+try:
+	while len(msg) > 230 or len(msg) < 80:
+		msg = text_model.make_sentence()
+		while msg is None:
+			msg = text_model.make_sentence()
 
-api.update_status(i)
+	api.update_status(msg)
 
-print("Tweeted: " + i)
+	print("Tweeted: " + msg)
+
+except:
+	print("Model Failed")
+
 
 
